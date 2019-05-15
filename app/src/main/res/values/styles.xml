@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="button_style">
+        <item name="android:background">@drawable/custom_create_clock_button</item>
+        <item name="android:minWidth">100dp</item>
+    </style>
+
+    <style name="on_off_button_style">
+        <item name="android:background">@drawable/custom_add_close_button</item>.
+        <item name="android:minWidth">45dp</item>
+        <item name="android:minHeight">30dp</item>
+    </style>
+
 </resources>
