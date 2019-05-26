@@ -6,85 +6,66 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/activity_background"
-        tools:context=".MainActivity">
-
+        tools:context=".ChangeClockActivity">
 
     <ImageButton
             style="@style/on_off_button_style"
-            android:id="@+id/active_clock"
+            android:id="@+id/active_clock_settings_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" app:srcCompat="@drawable/ic_check"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp"/>
 
-
     <ImageButton
             style="@style/on_off_button_style"
-            android:id="@+id/close_clock"
+            android:id="@+id/close_clock_settings_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" app:srcCompat="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
 
-
     <View
-            android:id="@+id/line_under_clock_add_clock_activivty"
+            android:id="@+id/line_under_clock"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/active_clock"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/active_clock_settings_image_button"
             android:layout_marginTop="4dp"/>
 
-
     <TextView
-            android:id="@+id/add_clock_setting_textView"
-            android:text="Clock"
+            android:id="@+id/change_clock_setting_textView"
+            android:text="Change clock"
             android:textColor="#000000"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/line_under_clock_add_clock_activivty"/>
-
+            android:layout_marginBottom="4dp" app:layout_constraintBottom_toBottomOf="@+id/line_under_clock"/>
 
     <TimePicker
-            android:id="@+id/add_clock_time_picker"
+            android:id="@+id/change_clock_time_picker"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/line_under_clock_add_clock_activivty"
+            app:layout_constraintTop_toBottomOf="@+id/line_under_clock"
             android:background="#FFFFFF"
             android:headerBackground="#42A5F5"
             android:headerTimeTextAppearance="@style/TextAppearance.AppCompat.Body2"
             android:numbersSelectorColor="#42A5F5"/>
 
+    <Button
+            android:text="Delete clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/delete_button"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/>
+
 
 </android.support.constraint.ConstraintLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

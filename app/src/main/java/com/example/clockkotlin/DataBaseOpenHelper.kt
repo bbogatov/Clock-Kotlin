@@ -17,6 +17,7 @@ class DataBaseOpenHelper(context: Context, dbName: String, factory: SQLiteDataba
 
         db.execSQL(
             "create table $dbName ("
+                    + "id integer primary key autoincrement,"
                     + "time text,"
                     + "switch boolean" + ");"
         )

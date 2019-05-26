@@ -4,14 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageButton
-import android.widget.Switch
 import android.widget.TextView
 import android.widget.TimePicker
-import kotlinx.android.synthetic.main.clock_activity.view.*
+
 
 private const val NEW_CLOCK_DETECTED = "com.example.clockkotlin.NEW_CLOCK"
 
-
+//Этот класс добавляет новый будильник
 class ClockActivity : AppCompatActivity() {
 
     private lateinit var closeClockImageButton: ImageButton
@@ -25,7 +24,7 @@ class ClockActivity : AppCompatActivity() {
 
         closeClockImageButton = findViewById(R.id.close_clock)
         activeClockImageButton = findViewById(R.id.active_clock)
-        timePicker = findViewById(R.id.time_picker)
+        timePicker = findViewById(R.id.add_clock_time_picker)
         timePicker.setIs24HourView(true)
 
         closeClockImageButton.setOnClickListener { backMainActivity() }
@@ -47,6 +46,7 @@ class ClockActivity : AppCompatActivity() {
         textView.text = getString(R.string.time_format_string, timePicker.currentHour, timePicker.currentMinute)
 
 
+        //Метод отправляет новое время в AlarmReceiver.kt где новый будльник добавляется в базу данных
         val newClock = Intent(NEW_CLOCK_DETECTED)
         newClock.putExtra(
             "time",
@@ -55,6 +55,6 @@ class ClockActivity : AppCompatActivity() {
         sendBroadcast(newClock)
 
 
-         backMainActivity()
+        backMainActivity()
     }
 }

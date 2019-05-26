@@ -38,6 +38,8 @@ class AlarmReceiver : BroadcastReceiver() {
      */
     private fun addClock(time: String) {
 
+        clockDataBase = dbHelper.writableDatabase
+
         //New clock object
         val cv = ContentValues()
 
@@ -47,11 +49,10 @@ class AlarmReceiver : BroadcastReceiver() {
         //default switch value
         cv.put("switch", 1)
 
-        clockDataBase = dbHelper.writableDatabase
-        clockDataBase.insert("clock_table_data_base", null, cv)
-        Log.d("clock_table_data_base", "add new clock to data base")
+        val id = clockDataBase.insert("clock_table_data_base", null, cv)
+        Log.d("clock_table_data_base", "add new clock to data base with id $id")
 
-        clockDataBase.close()
+
         dbHelper.close()
     }
 }
