@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -39,10 +40,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createClockActivity() {
-        val intent: Intent = Intent(this, ClockActivity::class.java)
+        val intent = Intent(this, ClockActivity::class.java)
         startActivity(intent)
     }
-
 
     //Тут читается база данных со всеми будильниками, и вносится в массив данных который будет отображаться на экране
     private fun getClocksArray() {
@@ -59,17 +59,19 @@ class MainActivity : AppCompatActivity() {
             do {
                 val currentTextView = TextView(this)
                 val currentSwitch = Switch(this)
-                val id = cursor.getInt(idColumnIndex)
+                val id = cursor.getLong(idColumnIndex)
 
 
                 currentTextView.text = cursor.getString(timeColumnIndex)
-                currentSwitch.isChecked = cursor.getString(switchColumnIndex).toInt() == 1
+                currentSwitch.isChecked = cursor.getInt(switchColumnIndex) > 0
 
                 alarms.add(ClockAlarm(currentTextView, currentSwitch, id))
 
             } while ((cursor.moveToNext()))
         }
 
+        clockDataBase.close()
+        dbHelper.close()
 
         cursor.close()
     }

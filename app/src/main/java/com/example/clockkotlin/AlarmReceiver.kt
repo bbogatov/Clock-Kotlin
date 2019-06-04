@@ -1,58 +1,40 @@
 package com.example.clockkotlin
 
 
-import android.content.*
+import android.app.AlarmManager
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.ContentValues
+import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
+import android.media.MediaPlayer
+import android.support.v4.app.NotificationCompat
 import android.util.Log
 import android.widget.Toast
-import java.io.File
+import java.util.*
+import java.util.concurrent.TimeUnit
 
-//В этом классе будут записываться будильники в массив
+
+/**
+ * This class adds notification and plays sound.
+ */
 class AlarmReceiver : BroadcastReceiver() {
 
-    //Alarms array
-    lateinit var clockDataBase: SQLiteDatabase
-    lateinit var dbHelper: DataBaseOpenHelper
-
-
-    override fun onReceive(context: Context, intent: Intent) {
-        Toast.makeText(
-            context,
-            "Будильник добавлен на ${intent.getStringExtra("time")}",
-            Toast.LENGTH_SHORT
-        ).show()
-
-
-        dbHelper = DataBaseOpenHelper(context, "clock_table_data_base", null, 1)
-
-        addClock(intent.getStringExtra("time"))
-
-
-    }
-
-
     /**
-     * Method that adds new alarm clock.
-     *
-     * @param time alarm time
+     * Method play sound and adds notification to the screen
      */
-    private fun addClock(time: String) {
+    override fun onReceive(context: Context, intent: Intent) {
+        Log.d("NOTIF_TAG", "Get notification to start clock")
 
-        clockDataBase = dbHelper.writableDatabase
+        //Player plays song to wake up user
+        Player.playMusic(context)
 
-        //New clock object
-        val cv = ContentValues()
+        //Add notification to the screen
+        AlarmNotification.createNotification(context)
 
-        //Alarm time, user chose it
-        cv.put("time", time)
-
-        //default switch value
-        cv.put("switch", 1)
-
-        val id = clockDataBase.insert("clock_table_data_base", null, cv)
-        Log.d("clock_table_data_base", "add new clock to data base with id $id")
-
-
-        dbHelper.close()
     }
+
 }

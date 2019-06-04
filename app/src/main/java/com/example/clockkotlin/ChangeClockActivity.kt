@@ -26,7 +26,7 @@ class ChangeClockActivity : AppCompatActivity() {
     /**
      * Element in database that need remove or change
      */
-    private var indexPosition: Int = 0
+    private var indexPosition: Long = 0
 
     /**
      * Boolean checks does user change time on [timePicker]
@@ -43,8 +43,8 @@ class ChangeClockActivity : AppCompatActivity() {
         val intent = intent
         val time = intent.getStringExtra("time")
 
-        //Element that need to change or delete, index means - its index in data base, not in arraylist
-        indexPosition = intent.getIntExtra("index", 0)
+        //Element that need to change or delete, id means - its id in data base, not in arraylist
+        indexPosition = intent.getLongExtra("id", 0)
 
 
         //Close image button
@@ -97,7 +97,7 @@ class ChangeClockActivity : AppCompatActivity() {
      * If user click close button and there was any changes in time
      * this code will show popup window and asks user does hi wants to make a changes.
      * If user wants to make a changes runs method [changeTimeInDataBase].
-     * If user dont wanna make any changes returns main activity, runs [backMainActivity]
+     * If user don't wanna make any changes returns main activity, runs [backMainActivity]
      */
     private fun alertWindow() {
         val title: String = this.getString(R.string.change_data)
@@ -141,14 +141,12 @@ class ChangeClockActivity : AppCompatActivity() {
             "time",
             getString(R.string.time_format_string, timePicker.currentHour, timePicker.currentMinute)
         )
-        contentValues.put("switch", 1)
+        contentValues.put("switch", true)
 
         clockDataBase.update(
             "clock_table_data_base",
             contentValues, "id = ?", arrayOf(indexPosition.toString())
         )
-
-        println(arrayOf(indexPosition.toString()))
 
 
         Log.d(
@@ -172,6 +170,8 @@ class ChangeClockActivity : AppCompatActivity() {
         val clockDataBase: SQLiteDatabase = dbHelper.writableDatabase
 
         clockDataBase.delete("clock_table_data_base", "id = $indexPosition", null)
+
+        AlarmClockSignalArray.deleteSignal(indexPosition)
 
         dbHelper.close()
         backMainActivity()
