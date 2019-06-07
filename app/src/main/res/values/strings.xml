@@ -7,5 +7,4 @@
     <string name="change_data">Do you want to make a change?</string>
     <string name="yes_chose">Yes</string>
     <string name="no_chose">No</string>
-    <string name="database_name">clock_table_data_base</string>
 </resources>

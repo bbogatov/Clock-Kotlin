@@ -10,14 +10,25 @@ import android.widget.ListView
 import android.widget.Switch
 import android.widget.TextView
 
+/**
+ * Main activity, from this activity application starts
+ */
 class MainActivity : AppCompatActivity() {
 
-    //button that runs activity that adds new alarm time
+    /**
+     * Button that starts activity that adds new clock
+     */
     lateinit var addClockImageButton: ImageButton
 
+    /**
+     * Array list that keeps all clock and shows them on screen
+     */
     private var alarms: ArrayList<ClockAlarm> = ArrayList()
-    private lateinit var clockAdapter: ClockAdapter
 
+    /**
+     * Adapter that shows all clocks using recycler view
+     */
+    private lateinit var clockAdapter: ClockAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -26,10 +37,9 @@ class MainActivity : AppCompatActivity() {
 
         getClocksArray()
 
-
         addClockImageButton = findViewById(R.id.clock_button)
 
-        addClockImageButton.setOnClickListener { createClockActivity() }
+        addClockImageButton.setOnClickListener { createNewClockActivity() }
 
 
         clockAdapter = ClockAdapter(this, alarms)
@@ -39,12 +49,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun createClockActivity() {
-        val intent = Intent(this, ClockActivity::class.java)
+    /**
+     * Method shows screen where user can peek a time for new clock
+     */
+    private fun createNewClockActivity() {
+        val intent = Intent(this, AddNewClockActivity::class.java)
         startActivity(intent)
     }
 
-    //Тут читается база данных со всеми будильниками, и вносится в массив данных который будет отображаться на экране
+    /**
+     * Reads database and shows all clocks on the screen
+     */
     private fun getClocksArray() {
         val dbHelper = DataBaseOpenHelper(this, "clock_table_data_base", null, 1)
         val clockDataBase: SQLiteDatabase = dbHelper.writableDatabase
@@ -76,4 +91,9 @@ class MainActivity : AppCompatActivity() {
         cursor.close()
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalDataBase.closeDataBase()
+    }
 }

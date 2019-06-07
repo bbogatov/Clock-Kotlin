@@ -1,6 +1,7 @@
 package com.example.clockkotlin
 
 import android.content.BroadcastReceiver
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 
@@ -16,10 +17,4 @@ class NotificationButtonReceiver : BroadcastReceiver() {
         //Remove notification from screen
         AlarmNotification.closeNotification()
     }
-
-    //TODO после выключения сигнала нужно менять значения switch в базе данных
-    private fun changeSwitchInDataBase() {
-
-    }
-
 }

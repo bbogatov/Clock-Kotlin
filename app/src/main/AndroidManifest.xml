@@ -2,10 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.clockkotlin">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
+            android:name=".App"
             android:allowBackup="false"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -28,7 +30,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChangeClockActivity"/>
-        <activity android:name=".ClockActivity"/>
+        <activity android:name=".AddNewClockActivity"/>
+
         <receiver android:name=".AlarmReceiver"/>
     </application>
 

@@ -1,27 +1,27 @@
 package com.example.clockkotlin
 
 import android.content.ContentValues
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.res.Resources
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TimePicker
+import android.widget.Toast
 
 
-//В этом классе изменяется будильник время или удаление из базы данных
+/**
+ * Class that used to change clock activity or remove clock.
+ */
 class ChangeClockActivity : AppCompatActivity() {
 
     private lateinit var closeButton: ImageButton
     private lateinit var confirmButton: ImageButton
     private lateinit var timePicker: TimePicker
     private lateinit var deleteButton: Button
+    private lateinit var oldTime: String
 
     /**
      * Element in database that need remove or change
@@ -42,8 +42,9 @@ class ChangeClockActivity : AppCompatActivity() {
 
         val intent = intent
         val time = intent.getStringExtra("time")
+        oldTime = time
 
-        //Element that need to change or delete, id means - its id in data base, not in arraylist
+        //Element that need to change or deleteAlarm, id means - its id in data base, not in arraylist
         indexPosition = intent.getLongExtra("id", 0)
 
 
@@ -132,33 +133,23 @@ class ChangeClockActivity : AppCompatActivity() {
      * If user wants to change time for current clock. This function changes data in database
      */
     private fun changeTimeInDataBase() {
-
-        val dbHelper = DataBaseOpenHelper(this, "clock_table_data_base", null, 1)
-        val clockDataBase: SQLiteDatabase = dbHelper.writableDatabase
+        val newTime = getString(R.string.time_format_string, timePicker.currentHour, timePicker.currentMinute)
         val contentValues = ContentValues()
-
         contentValues.put(
             "time",
-            getString(R.string.time_format_string, timePicker.currentHour, timePicker.currentMinute)
+            newTime
         )
         contentValues.put("switch", true)
 
-        clockDataBase.update(
-            "clock_table_data_base",
-            contentValues, "id = ?", arrayOf(indexPosition.toString())
-        )
 
+        LocalDataBase.changeTime(contentValues, indexPosition, oldTime, newTime)
 
-        Log.d(
-            R.string.data_base_log.toString(),
-            "Update row $indexPosition time changed to ${getString(
-                R.string.time_format_string,
-                timePicker.currentHour,
-                timePicker.currentMinute
-            )}"
-        )
+        Toast.makeText(
+            this,
+            "Time changed to $newTime",
+            Toast.LENGTH_SHORT
+        ).show()
 
-        dbHelper.close()
         backMainActivity()
     }
 
@@ -166,14 +157,8 @@ class ChangeClockActivity : AppCompatActivity() {
      * Method that removes clock from DB
      */
     private fun deleteClock() {
-        val dbHelper = DataBaseOpenHelper(this, "clock_table_data_base", null, 1)
-        val clockDataBase: SQLiteDatabase = dbHelper.writableDatabase
-
-        clockDataBase.delete("clock_table_data_base", "id = $indexPosition", null)
-
-        AlarmClockSignalArray.deleteSignal(indexPosition)
-
-        dbHelper.close()
+        Alarms.removeAlarm(oldTime, indexPosition)
+        LocalDataBase.deleteAlarm(indexPosition)
         backMainActivity()
     }
 }

@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
+/**
+ * Class that helps creating local database
+ */
 class DataBaseOpenHelper(context: Context, dbName: String, factory: SQLiteDatabase.CursorFactory?, version: Int) :
     SQLiteOpenHelper(context, dbName, factory, version) {
 

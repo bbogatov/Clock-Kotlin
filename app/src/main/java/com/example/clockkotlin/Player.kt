@@ -9,13 +9,19 @@ import android.media.MediaPlayer
 object Player {
     private var player: MediaPlayer? = null
 
-    private fun init(context: Context) {
-        player = MediaPlayer.create(context, R.raw.nature_sounds)
+    /**
+     * Initialize player
+     */
+    private fun init() {
+        player = MediaPlayer.create(App.appContext, R.raw.nature_sounds)
     }
 
-    fun playMusic(context: Context) {
+    /**
+     * Plays music to wake up user
+     */
+    fun playMusic() {
         if (player == null) {
-            init(context)
+            init()
         }
         player?.isLooping = true
         player?.setOnCompletionListener {
@@ -27,6 +33,9 @@ object Player {
         Logger.log("Player is playing ")
     }
 
+    /**
+     * If user wakes up music stops, player removes
+     */
     fun stopPlayer() {
         if (player != null) {
             player?.release()
