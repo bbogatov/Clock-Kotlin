@@ -20,16 +20,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        //This fragment shows all clocks taken from DB
         val clockListFragment = ClockListFragment()
-        val clockButtonFragment = AddClockButtonFragment()
-
-
         val listFragment = supportFragmentManager.beginTransaction()
         listFragment.add(R.id.list_fragment, clockListFragment)
         listFragment.commit()
 
 
+        val clockButtonFragment = AddClockButtonFragment()
+        //this fragment shows AddNewClockButton
         val buttonFragment = supportFragmentManager.beginTransaction()
         buttonFragment.add(R.id.button_fragment, clockButtonFragment)
         buttonFragment.commit()
@@ -41,11 +40,5 @@ class MainActivity : AppCompatActivity() {
     private fun createNewClockActivity() {
         val intent = Intent(this, AddNewClockActivity::class.java)
         startActivity(intent)
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        LocalDataBase.closeDataBase()
     }
 }

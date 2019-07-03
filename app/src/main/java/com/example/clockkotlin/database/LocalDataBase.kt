@@ -90,13 +90,6 @@ object LocalDataBase {
     }
 
     /**
-     * Close data base after application terminated
-     */
-    fun closeDataBase() {
-        dbHelper!!.close()
-    }
-
-    /**
      * Reads database and shows all clocks on the screen
      */
     fun getClocksArray(): ArrayList<AlarmSignal> {
