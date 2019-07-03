@@ -1,21 +1,17 @@
-package com.example.clockkotlin
+package com.example.clockkotlin.activities
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
-import java.util.*
-import java.util.concurrent.TimeUnit
+import com.example.clockkotlin.Alarms
+import com.example.clockkotlin.MainActivity
+import com.example.clockkotlin.R
+import com.example.clockkotlin.database.LocalDataBase
 
 
 /**
@@ -102,7 +98,7 @@ class AddNewClockActivity : AppCompatActivity() {
 
         val cv = ContentValues()
         cv.put("time", time)
-        cv.put("switch", true)
+        cv.put("enable", true)
 
         val id = LocalDataBase.addAlarm(cv)
 

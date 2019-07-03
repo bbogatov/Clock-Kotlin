@@ -4,6 +4,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import com.example.clockkotlin.logger.Logger
+import com.example.clockkotlin.receivers.AlarmReceiver
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -19,10 +21,10 @@ object Alarms {
      * @param index index of element in database
      */
     fun addAlarm(time: String, index: Long) {
-        val context = App.appContext
+        val context = ClockApplication.applicationContext()
 
         val intent = Intent(context, AlarmReceiver::class.java)
-        intent.action = "ClockAlarm $time"
+        intent.action = "AlarmSignal $time"
         intent.putExtra("time", time)
         intent.putExtra("index", index)
 
@@ -30,7 +32,7 @@ object Alarms {
         val pendingIntent =
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
 
-        val alarmManager: AlarmManager = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.set(AlarmManager.RTC_WAKEUP, getClockTime(time), pendingIntent)
         Logger.log("Created new alarm signal with time $time and index = $index")
     }
@@ -41,17 +43,17 @@ object Alarms {
      *  @param index index of element in database
      */
     fun removeAlarm(time: String, index: Long) {
-        val context = App.appContext
+        val context = ClockApplication.applicationContext()
 
         val intent = Intent(context, AlarmReceiver::class.java)
-        intent.action = "ClockAlarm $time"
+        intent.action = "AlarmSignal $time"
         intent.putExtra("time", time)
         intent.putExtra("index", index)
 
         val pendingIntent =
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
 
-        val alarmManager: AlarmManager = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         pendingIntent.cancel()
         alarmManager.cancel(pendingIntent)
         Logger.log("Removed old Alarm Signal with time $time and index = $index")
@@ -76,10 +78,10 @@ object Alarms {
      *  @param index index of element in database
      */
     fun backAlarm(time: String, index: Long) {
-        val context = App.appContext
+        val context = ClockApplication.applicationContext()
 
         val intent = Intent(context, AlarmReceiver::class.java)
-        intent.action = "ClockAlarm $time"
+        intent.action = "AlarmSignal $time"
         intent.putExtra("time", time)
         intent.putExtra("index", index)
 
@@ -88,7 +90,7 @@ object Alarms {
         val pendingIntent =
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
 
-        val alarmManager: AlarmManager = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.set(AlarmManager.RTC_WAKEUP, getClockTime(time), pendingIntent)
         Logger.log("Back clock with time $time and index = $index")
     }
@@ -109,6 +111,7 @@ object Alarms {
 
         val calendarNow = Calendar.getInstance()
         val currentTime = calendarNow.time
+
         if (clockTime.time > currentTime.time) {
             return clockTime.time
         } else {

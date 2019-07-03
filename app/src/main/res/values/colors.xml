@@ -5,4 +5,5 @@
     <color name="colorAccent">#FFF176</color>
     <color name="activity_background">#FFFFFF</color>
     <color name="time_color">#000000</color>
+    <color name="activityBackground">#FFFFFF</color>
 </resources>

@@ -1,9 +1,11 @@
-package com.example.clockkotlin
+package com.example.clockkotlin.receivers
 
 import android.content.BroadcastReceiver
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import com.example.clockkotlin.logger.Logger
+import com.example.clockkotlin.notificator.AlarmNotification
+import com.example.clockkotlin.notificator.AlarmPlayer
 
 
 /**
@@ -13,7 +15,7 @@ class NotificationButtonReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         Logger.log("Received instruction to stop player")
-        Player.stopPlayer()
+        AlarmPlayer.stopPlayer()
         //Remove notification from screen
         AlarmNotification.closeNotification()
     }

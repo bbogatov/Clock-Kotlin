@@ -1,4 +1,4 @@
-package com.example.clockkotlin
+package com.example.clockkotlin.activities
 
 import android.content.ContentValues
 import android.content.Intent
@@ -10,6 +10,10 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TimePicker
 import android.widget.Toast
+import com.example.clockkotlin.Alarms
+import com.example.clockkotlin.MainActivity
+import com.example.clockkotlin.R
+import com.example.clockkotlin.database.LocalDataBase
 
 
 /**
@@ -105,7 +109,9 @@ class ChangeClockActivity : AppCompatActivity() {
         val yes: String = this.getString(R.string.yes_chose)
         val no: String = this.getString(R.string.no_chose)
 
-        val ad: AlertDialog.Builder = AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog_Alert)
+        val ad: AlertDialog.Builder = AlertDialog.Builder(this,
+            R.style.Theme_AppCompat_Dialog_Alert
+        )
 
         ad.setMessage(title)
         ad.setCancelable(false)
@@ -139,7 +145,7 @@ class ChangeClockActivity : AppCompatActivity() {
             "time",
             newTime
         )
-        contentValues.put("switch", true)
+        contentValues.put("enable", true)
 
 
         LocalDataBase.changeTime(contentValues, indexPosition, oldTime, newTime)

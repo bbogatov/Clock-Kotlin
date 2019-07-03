@@ -1,4 +1,4 @@
-package com.example.clockkotlin
+package com.example.clockkotlin.logger
 
 import android.util.Log
 

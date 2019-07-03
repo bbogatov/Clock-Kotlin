@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/activity_background"
-        tools:context=".ChangeClockActivity">
+        android:background="@android:color/white"
+        tools:context=".activities.ChangeClockActivity">
 
     <ImageButton
             style="@style/on_off_button_style"
@@ -47,6 +47,7 @@
             android:layout_marginBottom="4dp" app:layout_constraintBottom_toBottomOf="@+id/line_under_clock"/>
 
     <TimePicker
+            android:timePickerMode="spinner"
             android:id="@+id/change_clock_time_picker"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"

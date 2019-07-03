@@ -1,19 +1,24 @@
-package com.example.clockkotlin
+package com.example.clockkotlin.notificator
 
-import android.content.Context
 import android.media.MediaPlayer
+import com.example.clockkotlin.ClockApplication
+import com.example.clockkotlin.logger.Logger
+import com.example.clockkotlin.R
 
 /**
  * This object response for playing music when clock should work
  */
-object Player {
+object AlarmPlayer {
     private var player: MediaPlayer? = null
 
     /**
      * Initialize player
      */
-    private fun init() {
-        player = MediaPlayer.create(App.appContext, R.raw.nature_sounds)
+    private fun getInstance() {
+        player = MediaPlayer.create(
+            ClockApplication.applicationContext(),
+            R.raw.nature_sounds
+        )
     }
 
     /**
@@ -21,7 +26,7 @@ object Player {
      */
     fun playMusic() {
         if (player == null) {
-            init()
+            getInstance()
         }
         player?.isLooping = true
         player?.setOnCompletionListener {
@@ -30,7 +35,7 @@ object Player {
             }
         }
         player?.start()
-        Logger.log("Player is playing ")
+        Logger.log("AlarmPlayer is playing ")
     }
 
     /**
@@ -41,6 +46,6 @@ object Player {
             player?.release()
             player = null
         }
-        Logger.log("Player stopped")
+        Logger.log("AlarmPlayer stopped")
     }
 }
