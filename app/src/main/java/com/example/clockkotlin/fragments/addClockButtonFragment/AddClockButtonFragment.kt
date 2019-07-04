@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import com.example.clockkotlin.R
-import com.example.clockkotlin.activities.AddNewClockActivity
+import com.example.clockkotlin.activities.newClock.NewClockActivity
 
 class AddClockButtonFragment : Fragment(), AddButtonContract.View {
 
@@ -35,7 +35,7 @@ class AddClockButtonFragment : Fragment(), AddButtonContract.View {
     }
 
     override fun showNewClockActivity() {
-        val intent = Intent(context, AddNewClockActivity::class.java)
+        val intent = Intent(context, NewClockActivity::class.java)
         startActivity(intent)
     }
 }

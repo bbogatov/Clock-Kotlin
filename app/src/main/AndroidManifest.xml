@@ -30,8 +30,8 @@
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ChangeClockActivity"/>
-        <activity android:name=".activities.AddNewClockActivity"/>
+        <activity android:name=".activities.changeClock.ChangeClockActivity"/>
+        <activity android:name=".activities.newClock.NewClockActivity"/>
 
 
     </application>

@@ -9,17 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.clockkotlin.R
 import com.example.clockkotlin.adapter.ClockAdapter
-import com.example.clockkotlin.database.LocalDataBase
 import com.example.clockkotlin.databaseClockAlarm.AlarmSignal
 
 
 class ClockListFragment : Fragment() {
 
-
+    private lateinit var presenter: ClockListContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_clock_list, null)
+
+        presenter = ClockListPresenter(this)
 
         addRecyclerView(view)
 
@@ -28,18 +29,17 @@ class ClockListFragment : Fragment() {
 
     private fun addRecyclerView(wView: View) {
 
-        val clockArray = LocalDataBase.getClocksArray()
-        //Not sure about activity as Activity
+        val clockArray = presenter.getClocks()
 
         //TODO нужно удалить будет это заполнение массива
         if (clockArray.size == 0) {
             for (i in 1..10) {
-                clockArray.add(AlarmSignal(i.toLong() , "12:$i", true))
+                clockArray.add(AlarmSignal(i.toLong(), "12:0$i", true))
             }
 
         }
 
-        val adapter = ClockAdapter(requireActivity(), clockArray)
+        val adapter: ClockAdapter = ClockAdapter(requireActivity(), clockArray)
 
 
         val recyclerView: RecyclerView? = wView.findViewById(R.id.alarms_list)

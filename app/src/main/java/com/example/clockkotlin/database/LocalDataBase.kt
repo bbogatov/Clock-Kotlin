@@ -3,21 +3,32 @@ package com.example.clockkotlin.database
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.widget.Switch
-import android.widget.TextView
-import com.example.clockkotlin.Alarms
+import com.example.clockkotlin.alarmManager.Alarms
 import com.example.clockkotlin.ClockApplication
 import com.example.clockkotlin.R
 import com.example.clockkotlin.databaseClockAlarm.AlarmSignal
 import com.example.clockkotlin.logger.Logger
+import com.example.clockkotlin.observerInterface.Observed
+import com.example.clockkotlin.observerInterface.Observer
 
 /**
  * This object is local database. You can add, change and delete element from it.
  */
-object LocalDataBase {
+object LocalDataBase : Observed {
+
     private var dbHelper: DataBaseOpenHelper? = null
     private var sqLiteDatabase: SQLiteDatabase? = null
     private var dbVersion = 1
+    private var observersArray: ArrayList<Observer>
+
+    private val TIME_DB_FIELD =
+        ClockApplication.applicationContext().getResources().getString(R.string.time_db_field)
+
+    private val SWITCH_DB_FIELD =
+        ClockApplication.applicationContext().getResources().getString(R.string.switch_db_field)
+
+    private val ID_DB_FIELD =
+        ClockApplication.applicationContext().getResources().getString(R.string.id_db_field)
 
     /**
      * Database name that stores all clock alarms
@@ -33,6 +44,7 @@ object LocalDataBase {
             dbVersion
         )
         sqLiteDatabase = dbHelper!!.writableDatabase
+        observersArray = ArrayList()
     }
 
     /**
@@ -40,52 +52,62 @@ object LocalDataBase {
      *
      * @return returns index that added element ranked in array
      */
-    fun addAlarm(cv: ContentValues): Long {
-        val id = sqLiteDatabase!!.insert("clock_table_data_base", null, cv)
+    fun addAlarm(time: String): Long {
+
+        val contentValues = ContentValues()
+        contentValues.put(TIME_DB_FIELD, time)
+        contentValues.put(SWITCH_DB_FIELD, true)
+        val id = sqLiteDatabase!!.insert(DATA_BASE_NAME, null, contentValues)
+
+
         Logger.log("Add new clock to data base with id $id")
+        notifyObservers()
         return id
     }
 
     /**
      * Method removes alarm from data base
      */
-    fun deleteAlarm(indexPosition: Long) {
-        Logger.log("Delete clock from database with id = $indexPosition")
-        sqLiteDatabase!!.delete("clock_table_data_base", "id = $indexPosition", null)
+    fun deleteAlarm(id: Long) {
+        Logger.log("Delete clock from database with id = $id")
+        sqLiteDatabase!!.delete(DATA_BASE_NAME, "$ID_DB_FIELD = $id", null)
     }
 
     /**
      * Changes enable value in database
      *
-     * @param indexPosition index in database that need change
+     * @param id index in database that need change
      * @param contentValues updated content value
      */
-    fun changeAlarmSwitch(indexPosition: Long, contentValues: ContentValues) {
+    fun changeAlarmSwitch(id: Long, contentValues: ContentValues) {
         sqLiteDatabase!!.update(
-            "clock_table_data_base", contentValues, "id = ?",
-            arrayOf(indexPosition.toString())
+            DATA_BASE_NAME, contentValues, "$ID_DB_FIELD = ?",
+            arrayOf(id.toString())
         )
-        Logger.log("Change alarm enable in database for id = $indexPosition")
+        Logger.log("Change alarm enable in database for id = $id")
     }
 
     /**
      * Changes time for alarm
      *
      * @param contentValues updated content value
-     * @param indexPosition position of element that need change
+     * @param id position of element that need change
      * @param oldTime time that need to change
      * @param newTime future clock time
      */
     fun changeTime(
-        contentValues: ContentValues, indexPosition: Long, oldTime: String, newTime: String
+        contentValues: ContentValues, id: Long, oldTime: String, newTime: String
     ) {
 
         sqLiteDatabase!!.update(
-            "clock_table_data_base",
-            contentValues, "id = ?", arrayOf(indexPosition.toString())
+            DATA_BASE_NAME,
+            contentValues, "$ID_DB_FIELD = ?", arrayOf(id.toString())
         )
-        Alarms.changeAlarmTime(oldTime, newTime, indexPosition)
-        Logger.log("Change alarm time in database for id = $indexPosition")
+
+        val alarm = Alarms()
+        //alarm.changeAlarmTime()
+
+        Logger.log("Change alarm time in database for id = $id")
 
     }
 
@@ -99,9 +121,9 @@ object LocalDataBase {
 
         if (cursor.moveToFirst()) {
 
-            val idColumnIndex: Int = cursor.getColumnIndex("id")
-            val timeColumnIndex: Int = cursor.getColumnIndex("time")
-            val switchColumnIndex: Int = cursor.getColumnIndex("enable")
+            val idColumnIndex: Int = cursor.getColumnIndex(ID_DB_FIELD)
+            val timeColumnIndex: Int = cursor.getColumnIndex(TIME_DB_FIELD)
+            val switchColumnIndex: Int = cursor.getColumnIndex(SWITCH_DB_FIELD)
 
             do {
 
@@ -120,5 +142,28 @@ object LocalDataBase {
         cursor.close()
 
         return clockAlarms
+    }
+
+    /**
+     * Add new observer that will usen if data has changes
+     */
+    override fun addObserver(observer: Observer) {
+        observersArray.add(observer)
+    }
+
+    /**
+     * Removes observer from observers list
+     */
+    override fun removeObserver(observer: Observer) {
+        observersArray.remove(observer)
+    }
+
+    /**
+     * Notifies all observers that subscribed for this class
+     */
+    override fun notifyObservers() {
+        for (observer in observersArray) {
+            observer.handleEvent(getClocksArray())
+        }
     }
 }

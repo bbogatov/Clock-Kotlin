@@ -3,9 +3,7 @@ package com.example.clockkotlin
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.example.clockkotlin.activities.AddNewClockActivity
-import com.example.clockkotlin.adapter.ClockAdapter
-import com.example.clockkotlin.database.LocalDataBase
+import com.example.clockkotlin.activities.newClock.NewClockActivity
 import com.example.clockkotlin.fragments.addClockButtonFragment.AddClockButtonFragment
 import com.example.clockkotlin.fragments.clockListFragment.ClockListFragment
 
@@ -38,7 +36,7 @@ class MainActivity : AppCompatActivity() {
      * Method shows screen where user can peek a time for new clock
      */
     private fun createNewClockActivity() {
-        val intent = Intent(this, AddNewClockActivity::class.java)
+        val intent = Intent(this, NewClockActivity::class.java)
         startActivity(intent)
     }
 }

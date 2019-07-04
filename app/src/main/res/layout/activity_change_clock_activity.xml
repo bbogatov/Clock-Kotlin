@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        tools:context=".activities.ChangeClockActivity">
+        tools:context=".activities.changeClock.ChangeClockActivity">
 
     <ImageButton
             style="@style/on_off_button_style"
@@ -37,7 +37,7 @@
 
     <TextView
             android:id="@+id/change_clock_setting_textView"
-            android:text="Change clock"
+            android:text="@string/change_clock"
             android:textColor="#000000"
             android:textSize="20sp"
             android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package com.example.clockkotlin.activities
+package com.example.clockkotlin.activities.changeClock
 
 import android.content.ContentValues
 import android.content.Intent
@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TimePicker
 import android.widget.Toast
-import com.example.clockkotlin.Alarms
+import com.example.clockkotlin.alarmManager.Alarms
 import com.example.clockkotlin.MainActivity
 import com.example.clockkotlin.R
 import com.example.clockkotlin.database.LocalDataBase
@@ -163,7 +163,8 @@ class ChangeClockActivity : AppCompatActivity() {
      * Method that removes clock from DB
      */
     private fun deleteClock() {
-        Alarms.removeAlarm(oldTime, indexPosition)
+        val alarm = Alarms()
+        alarm.removeAlarm(oldTime, indexPosition)
         LocalDataBase.deleteAlarm(indexPosition)
         backMainActivity()
     }

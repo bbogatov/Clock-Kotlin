@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
 import com.example.clockkotlin.R
-import com.example.clockkotlin.activities.ChangeClockActivity
+import com.example.clockkotlin.activities.changeClock.ChangeClockActivity
 import com.example.clockkotlin.databaseClockAlarm.AlarmSignal
 import com.example.clockkotlin.logger.Logger
 
@@ -18,9 +18,8 @@ import com.example.clockkotlin.logger.Logger
  * User can use enable to active or inactive clock.
  * Or can click on time and change it.
  */
-class ClockAdapter(private val activity: Activity, var alarms: ArrayList<AlarmSignal>) :
+class ClockAdapter(private var mActivity: Activity, var alarms: ArrayList<AlarmSignal>) :
     RecyclerView.Adapter<ClockAdapter.AlarmHolder>() {
-
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): AlarmHolder {
         Logger.log("Запускаем onCreateViewHolder")
@@ -47,7 +46,6 @@ class ClockAdapter(private val activity: Activity, var alarms: ArrayList<AlarmSi
         notifyDataSetChanged()
     }
 
-
     /**
      * Class that add one clock element to the screen
      */
@@ -57,7 +55,6 @@ class ClockAdapter(private val activity: Activity, var alarms: ArrayList<AlarmSi
         private var textView: TextView = itemView.findViewById(R.id.alarm_time_text_view)
         private var index: Long = 0
         private var presenter: ClockAdapterContract.Presenter = ClockListPresenter(this)
-
 
 
         init {
@@ -71,11 +68,11 @@ class ClockAdapter(private val activity: Activity, var alarms: ArrayList<AlarmSi
          * When user want change alarm time or delete clock, user pressed this button
          */
         override fun changeAlarmTime() {
-            val intent = Intent(activity, ChangeClockActivity::class.java)
+            val intent = Intent(mActivity, ChangeClockActivity::class.java)
             intent.putExtra("time", textView.text.toString())
             intent.putExtra("index", index)
             intent.putExtra("enable", aSwitch.isChecked)
-            activity.startActivity(intent)
+            mActivity.startActivity(intent)
         }
 
         fun bind(alarm: AlarmSignal) {
