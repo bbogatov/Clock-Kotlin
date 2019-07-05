@@ -3,7 +3,8 @@ package com.example.clockkotlin.database
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.example.clockkotlin.alarmManager.Alarms
+import android.widget.Switch
+import com.example.clockkotlin.alarmManager.ClockAlarmManager
 import com.example.clockkotlin.ClockApplication
 import com.example.clockkotlin.R
 import com.example.clockkotlin.databaseClockAlarm.AlarmSignal
@@ -74,38 +75,38 @@ object LocalDataBase : Observed {
     }
 
     /**
-     * Changes enable value in database
+     * Change switch value in data base.
      *
-     * @param id index in database that need change
-     * @param contentValues updated content value
+     * @param id        index of element in database
+     * @param isChecked new switch value
      */
-    fun changeAlarmSwitch(id: Long, contentValues: ContentValues) {
+    fun changeAlarmSwitch(id: Long, isChecked: Boolean) {
+        val contentValues = ContentValues()
+        contentValues.put(SWITCH_DB_FIELD, isChecked)
+
         sqLiteDatabase!!.update(
             DATA_BASE_NAME, contentValues, "$ID_DB_FIELD = ?",
             arrayOf(id.toString())
         )
-        Logger.log("Change alarm enable in database for id = $id")
+        Logger.log(
+            "Updated switch in data base: id = $id; switch =  $isChecked"
+        )
     }
 
     /**
      * Changes time for alarm
      *
-     * @param contentValues updated content value
      * @param id position of element that need change
-     * @param oldTime time that need to change
-     * @param newTime future clock time
+     * @param newTime new clock time
      */
-    fun changeTime(
-        contentValues: ContentValues, id: Long, oldTime: String, newTime: String
-    ) {
+    fun changeTime( id: Long, newTime: String) {
+        val contentValues = ContentValues()
+        contentValues.put(TIME_DB_FIELD, newTime)
 
         sqLiteDatabase!!.update(
             DATA_BASE_NAME,
             contentValues, "$ID_DB_FIELD = ?", arrayOf(id.toString())
         )
-
-        val alarm = Alarms()
-        //alarm.changeAlarmTime()
 
         Logger.log("Change alarm time in database for id = $id")
 

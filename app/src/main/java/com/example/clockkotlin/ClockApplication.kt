@@ -17,8 +17,4 @@ class ClockApplication : Application() {
         }
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        val context: Context = ClockApplication.applicationContext()
-    }
 }

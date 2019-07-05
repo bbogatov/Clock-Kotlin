@@ -11,7 +11,6 @@ import android.widget.TextView
 import com.example.clockkotlin.R
 import com.example.clockkotlin.activities.changeClock.ChangeClockActivity
 import com.example.clockkotlin.databaseClockAlarm.AlarmSignal
-import com.example.clockkotlin.logger.Logger
 
 /**
  * This class adds list of all clock on main screen.
@@ -19,21 +18,19 @@ import com.example.clockkotlin.logger.Logger
  * Or can click on time and change it.
  */
 class ClockAdapter(private var mActivity: Activity, var alarms: ArrayList<AlarmSignal>) :
-    RecyclerView.Adapter<ClockAdapter.AlarmHolder>() {
+    RecyclerView.Adapter<ClockAdapter.AlarmHolderView>() {
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): AlarmHolder {
-        Logger.log("Запускаем onCreateViewHolder")
+    override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): AlarmHolderView {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.recycler_view_item, viewGroup, false)
-        return AlarmHolder(view)
+        return AlarmHolderView(view)
     }
 
     override fun getItemCount(): Int {
         return alarms.size
     }
 
-    override fun onBindViewHolder(alarmHolder: AlarmHolder, id: Int) {
-        Logger.log("Запускаем байн")
-        alarmHolder.bind(alarms[id])
+    override fun onBindViewHolder(alarmHolderView: AlarmHolderView, id: Int) {
+        alarmHolderView.bind(alarms[id])
     }
 
     /**
@@ -49,17 +46,16 @@ class ClockAdapter(private var mActivity: Activity, var alarms: ArrayList<AlarmS
     /**
      * Class that add one clock element to the screen
      */
-    inner class AlarmHolder(itemView: View) : RecyclerView.ViewHolder(itemView), ClockAdapterContract.View {
+    inner class AlarmHolderView(itemView: View) : RecyclerView.ViewHolder(itemView), ClockAdapterContract.View {
 
         private var aSwitch: Switch = itemView.findViewById(R.id.alarm_switcher)
         private var textView: TextView = itemView.findViewById(R.id.alarm_time_text_view)
-        private var index: Long = 0
+        private var id: Long = 0
         private var presenter: ClockAdapterContract.Presenter = ClockListPresenter(this)
 
 
         init {
-            Logger.log("Запускаем inner")
-            aSwitch.setOnClickListener { presenter.switchPressed(index, aSwitch.isChecked, textView.text.toString()) }
+            aSwitch.setOnClickListener { presenter.switchPressed(id, aSwitch.isChecked, textView.text.toString()) }
             textView.setOnClickListener { presenter.textViewPressed() }
         }
 
@@ -67,18 +63,17 @@ class ClockAdapter(private var mActivity: Activity, var alarms: ArrayList<AlarmS
         /**
          * When user want change alarm time or delete clock, user pressed this button
          */
-        override fun changeAlarmTime() {
+        override fun startChangeClockActivity() {
             val intent = Intent(mActivity, ChangeClockActivity::class.java)
             intent.putExtra("time", textView.text.toString())
-            intent.putExtra("index", index)
-            intent.putExtra("enable", aSwitch.isChecked)
+            intent.putExtra("id", id)
             mActivity.startActivity(intent)
         }
 
         fun bind(alarm: AlarmSignal) {
             aSwitch.isChecked = alarm.enable
             textView.text = alarm.time
-            index = alarm.id
+            id = alarm.id
         }
 
     }

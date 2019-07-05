@@ -3,10 +3,8 @@ package com.example.clockkotlin.activities.newClock
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
-import com.example.clockkotlin.alarmManager.Alarms
 import com.example.clockkotlin.R
 
 
@@ -72,10 +70,10 @@ class NewClockActivity : AppCompatActivity(), NewClockContract.View {
     /**
      * Method that shows [Toast] notification on the screen, that new clock added successfully
      */
-    override fun showToastMessage(time: String) {
+    override fun showToastMessage(message: String) {
         Toast.makeText(
             this,
-            "Added new clock on time $time",
+            message,
             Toast.LENGTH_SHORT
         ).show()
     }

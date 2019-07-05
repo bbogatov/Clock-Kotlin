@@ -32,11 +32,4 @@ class MainActivity : AppCompatActivity() {
         buttonFragment.commit()
     }
 
-    /**
-     * Method shows screen where user can peek a time for new clock
-     */
-    private fun createNewClockActivity() {
-        val intent = Intent(this, NewClockActivity::class.java)
-        startActivity(intent)
-    }
 }

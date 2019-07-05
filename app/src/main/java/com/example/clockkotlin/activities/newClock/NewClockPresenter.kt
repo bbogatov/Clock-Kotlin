@@ -1,6 +1,6 @@
 package com.example.clockkotlin.activities.newClock
 
-import com.example.clockkotlin.alarmManager.Alarms
+import com.example.clockkotlin.alarmManager.ClockAlarmManager
 import com.example.clockkotlin.database.LocalDataBase
 
 /**
@@ -19,7 +19,7 @@ class NewClockPresenter(private val mView: NewClockContract.View) : NewClockCont
     override fun applyButtonPressed(time: String) {
         val id = addNewClock(time)
         addAlarmManger(time, id)
-        mView.showToastMessage(time)
+        mView.showToastMessage("Added new clock on time $time")
         closeActivity()
     }
 
@@ -45,7 +45,7 @@ class NewClockPresenter(private val mView: NewClockContract.View) : NewClockCont
      * Method create new alarm manager with specific time
      */
     private fun addAlarmManger(time: String, id: Long) {
-        Alarms().addAlarm(time, id)
+        ClockAlarmManager().addAlarm(time, id)
     }
 
     /**

@@ -5,6 +5,7 @@
     <string name="data_base_version">1.0</string>
     <string name="data_base_log">data_base_log</string>
     <string name="change_data">Do you want to make a change?</string>
+    <string name="delete_clock">Do you want to delete clock?</string>
     <string name="yes_chose">Yes</string>
     <string name="no_chose">No</string>
     <string name="alarms_data_base_name">clock_alarms</string>
@@ -12,4 +13,5 @@
     <string name="switch_db_field">enable</string>
     <string name="id_db_field">id</string>
     <string name="change_clock">Change clock</string>
+    <string name="delete_clock_successfully">Clock deleted</string>
 </resources>

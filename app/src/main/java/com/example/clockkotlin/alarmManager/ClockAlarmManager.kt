@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 /**
  * This objects adds, removes and changes alarms signals
  */
-class Alarms {
+class ClockAlarmManager {
 
     private val extraTime = "time"
     private val extraId = "id"

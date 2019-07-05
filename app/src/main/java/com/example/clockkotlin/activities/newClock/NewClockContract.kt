@@ -4,7 +4,7 @@ interface NewClockContract {
 
     interface View {
         fun finishActivity()
-        fun showToastMessage(time: String)
+        fun showToastMessage(message: String)
     }
 
     interface Presenter {

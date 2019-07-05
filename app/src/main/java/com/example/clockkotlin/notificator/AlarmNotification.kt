@@ -66,14 +66,10 @@ object AlarmNotification {
 
 
     /**
-     * If user clicked button "I woke up"
+     * If user clicked button "I woke up" on notification it  removes it.
      */
     fun closeNotification() {
         notificationManager.cancel(1)
-
-        val contentValues = ContentValues()
-        contentValues.put("time", time)
-        contentValues.put("enable", false)
-        LocalDataBase.changeAlarmSwitch(index, contentValues)
+        LocalDataBase.changeAlarmSwitch(index, false)
     }
 }
