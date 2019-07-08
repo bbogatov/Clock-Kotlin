@@ -43,7 +43,6 @@ class ClockListFragment : Fragment(), ClockListContract.View {
      * Method draws recycler view, list of all clocks
      */
     override fun addRecyclerView(clocksArray: ArrayList<AlarmSignal>) {
-        Logger.log("Размер массива ${clocksArray.size}")
         val adapter = ClockAdapter(requireActivity(), clocksArray)
 
         val recyclerView: RecyclerView? = mView.findViewById(R.id.alarms_list)
