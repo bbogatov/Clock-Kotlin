@@ -10,21 +10,40 @@ import android.widget.Switch
 import android.widget.TextView
 import com.example.clockkotlin.R
 import com.example.clockkotlin.activities.changeClock.ChangeClockActivity
+import com.example.clockkotlin.database.LocalDataBase
 import com.example.clockkotlin.databaseClockAlarm.AlarmSignal
+import com.example.clockkotlin.logger.Logger
+import com.example.clockkotlin.observerInterface.Observer
 
 /**
  * This class adds list of all clock on main screen.
  * User can use enable to active or inactive clock.
  * Or can click on time and change it.
+ * Implements observer pattern as Observer, it waits any notification from database
  */
 class ClockAdapter(private var mActivity: Activity, var alarms: ArrayList<AlarmSignal>) :
-    RecyclerView.Adapter<ClockAdapter.AlarmHolderView>() {
+    RecyclerView.Adapter<ClockAdapter.AlarmHolderView>(), Observer {
+
+    init{
+        LocalDataBase.addObserver(this)
+    }
+
+    /**
+     * If database has any changes this code redraws recycler view
+     */
+    override fun handleEvent(clockAlarms: ArrayList<AlarmSignal>) {
+        this.alarms = clockAlarms
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): AlarmHolderView {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.recycler_view_item, viewGroup, false)
         return AlarmHolderView(view)
     }
 
+    /**
+     * Returns clock quantity
+     */
     override fun getItemCount(): Int {
         return alarms.size
     }

@@ -10,42 +10,45 @@ import android.view.ViewGroup
 import com.example.clockkotlin.R
 import com.example.clockkotlin.adapter.ClockAdapter
 import com.example.clockkotlin.databaseClockAlarm.AlarmSignal
+import com.example.clockkotlin.logger.Logger
 
 
-class ClockListFragment : Fragment() {
+/**
+ * Class that draws list of clocks.
+ */
+class ClockListFragment : Fragment(), ClockListContract.View {
 
+    /**
+     * Presenter that contains all logic
+     */
     private lateinit var presenter: ClockListContract.Presenter
+
+    /**
+     * View that contains list of clocks
+     */
+    private lateinit var mView: View;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val view = inflater.inflate(R.layout.fragment_clock_list, null)
+        mView = inflater.inflate(R.layout.fragment_clock_list, null)
 
         presenter = ClockListPresenter(this)
 
-        addRecyclerView(view)
+        presenter.addRecyclerView()
 
-        return view
+        return mView
     }
 
-    private fun addRecyclerView(wView: View) {
+    /**
+     * Method draws recycler view, list of all clocks
+     */
+    override fun addRecyclerView(clocksArray: ArrayList<AlarmSignal>) {
+        Logger.log("Размер массива ${clocksArray.size}")
+        val adapter = ClockAdapter(requireActivity(), clocksArray)
 
-        val clockArray = presenter.getClocks()
-
-        //TODO нужно удалить будет это заполнение массива
-        if (clockArray.size == 0) {
-            for (i in 1..10) {
-                clockArray.add(AlarmSignal(i.toLong(), "12:0$i", true))
-            }
-
-        }
-
-        val adapter: ClockAdapter = ClockAdapter(requireActivity(), clockArray)
-
-
-        val recyclerView: RecyclerView? = wView.findViewById(R.id.alarms_list)
+        val recyclerView: RecyclerView? = mView.findViewById(R.id.alarms_list)
         recyclerView?.layoutManager = LinearLayoutManager(activity!!.applicationContext)
         recyclerView?.adapter = adapter
-
     }
 
 }

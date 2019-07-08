@@ -1,12 +1,17 @@
 package com.example.clockkotlin.fragments.clockListFragment
 
 import com.example.clockkotlin.database.LocalDataBase
-import com.example.clockkotlin.databaseClockAlarm.AlarmSignal
 
-class ClockListPresenter(clockListFragment: ClockListFragment) : ClockListContract.Presenter {
+/**
+ * Class contains business logic for recycler view
+ */
+class ClockListPresenter(private var mView: ClockListContract.View) : ClockListContract.Presenter {
 
-    override fun getClocks(): ArrayList<AlarmSignal> {
-        return LocalDataBase.getClocksArray()
+    /**
+     * Method tells recycler view draw clock array
+     */
+    override fun addRecyclerView() {
+        mView.addRecyclerView(LocalDataBase.getClocksArray())
     }
 
 }

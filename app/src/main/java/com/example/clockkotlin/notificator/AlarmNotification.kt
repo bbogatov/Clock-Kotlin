@@ -3,7 +3,6 @@ package com.example.clockkotlin.notificator
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -18,9 +17,15 @@ import com.example.clockkotlin.receivers.NotificationButtonReceiver
  * Object that response for notification
  */
 object AlarmNotification {
-    private lateinit var notificationManager: NotificationManager
-    private var index: Long = 0
+
+    private var notificationManager: NotificationManager
     private lateinit var time: String
+
+
+    init {
+        notificationManager =
+            ClockApplication.applicationContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
 
     /**
      * Function creates notification on a screen
@@ -28,10 +33,9 @@ object AlarmNotification {
      * @param index index of alarm signal in database. Used to change enable value to false
      * @param time time of notification in database. Used to change enable value to false
      */
-    fun createNotification(index: Long, time: String) {
+    fun createNotification( time: String) {
 
-        AlarmNotification.time = time
-        AlarmNotification.index = index
+        this.time = time
         //This button need to stop playing music
         val notificationButtonIntent: Intent = Intent(ClockApplication.applicationContext(), NotificationButtonReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(ClockApplication.applicationContext(), 0, notificationButtonIntent, 0)
@@ -64,12 +68,10 @@ object AlarmNotification {
         notificationManager.notify(1, alarmNotificationBuilder.build())
     }
 
-
     /**
      * If user clicked button "I woke up" on notification it  removes it.
      */
     fun closeNotification() {
         notificationManager.cancel(1)
-        LocalDataBase.changeAlarmSwitch(index, false)
     }
 }

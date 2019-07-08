@@ -69,27 +69,6 @@ class ClockAlarmManager {
     }
 
     /**
-     * Makes clock active again
-     *
-     *  @param time time of clock that need back must has a lock like this 13:05 or 02:09
-     *  @param id id of element in database
-     */
-    fun backAlarm(time: String, id: Long) {
-
-        val intent = getIntent(time, id)
-
-        val pendingIntent = getPendingIntent(intent)
-
-
-        val alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(
-            AlarmManager.RTC_WAKEUP,
-            getClockTime(time), pendingIntent
-        )
-        Logger.log("Back clock with time $time and id = $id")
-    }
-
-    /**
      * When switch changes its value code removes or add new alarm signal.
      *
      * @param isChecked switch value, if true it activates clock, if false it inactivates clock
@@ -107,7 +86,6 @@ class ClockAlarmManager {
                     "; switch old value " + !isChecked + "; switch new value " + isChecked
         )
     }
-
 
     /**
      * Method creates intent that used for pending intent and alarm manager.

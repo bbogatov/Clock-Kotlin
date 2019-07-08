@@ -1,6 +1,5 @@
 package com.example.clockkotlin.activities.changeClock
 
-import android.content.Context
 import android.widget.TimePicker
 
 interface ChangeClockContract {

@@ -12,14 +12,10 @@ import com.example.clockkotlin.activities.newClock.NewClockActivity
 
 class AddClockButtonFragment : Fragment(), AddButtonContract.View {
 
-
     /**
      * Button that starts activity that adds new clock
      */
     private lateinit var addClockImageButton: ImageButton
-
-
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 

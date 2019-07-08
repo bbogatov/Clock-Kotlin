@@ -9,7 +9,6 @@ package com.example.clockkotlin.databaseClockAlarm
  */
 class AlarmSignal(val id: Long, val time: String, var enable: Boolean) {
 
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

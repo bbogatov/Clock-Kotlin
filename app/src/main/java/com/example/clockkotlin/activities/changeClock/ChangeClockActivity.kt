@@ -73,7 +73,7 @@ class ChangeClockActivity : AppCompatActivity(), ChangeClockContract.View {
 
         //Delete button, when user clicks it current clock deletes from database
         deleteButton = findViewById(R.id.delete_button)
-        deleteButton.setOnClickListener { }
+        deleteButton.setOnClickListener { presenter.deleteButtonClicked() }
 
 
         //Time picker that user if user wants to change time for future clock
@@ -132,6 +132,9 @@ class ChangeClockActivity : AppCompatActivity(), ChangeClockContract.View {
         Logger.log("Shows alert window, asks user to save chages")
     }
 
+    /**
+     * Shows [Toast] messange on the screen
+     */
     override fun showToastMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

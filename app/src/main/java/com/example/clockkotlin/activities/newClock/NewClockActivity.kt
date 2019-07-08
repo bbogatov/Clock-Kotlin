@@ -14,14 +14,6 @@ import com.example.clockkotlin.R
 class NewClockActivity : AppCompatActivity(), NewClockContract.View {
 
     /**
-     * If user click add button or discard button this method finish current activity
-     */
-    override fun finishActivity() {
-        finish()
-    }
-
-
-    /**
      * If user don't wanna add new clock, user clicks this button
      */
     private lateinit var closeClockImageButton: ImageButton
@@ -40,7 +32,6 @@ class NewClockActivity : AppCompatActivity(), NewClockContract.View {
      * Presenter that contains all business logic
      */
     private lateinit var presenter: NewClockContract.Presenter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,5 +69,11 @@ class NewClockActivity : AppCompatActivity(), NewClockContract.View {
         ).show()
     }
 
+    /**
+     * If user click add button or discard button this method finish current activity
+     */
+    override fun finishActivity() {
+        finish()
+    }
 
 }

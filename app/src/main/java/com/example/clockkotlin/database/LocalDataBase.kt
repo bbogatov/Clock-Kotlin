@@ -14,20 +14,47 @@ import com.example.clockkotlin.observerInterface.Observer
 
 /**
  * This object is local database. You can add, change and delete element from it.
+ * Database implements observer pattern, if you need draw information on the screen from DB you should implement
+ * [Observer] interface and add that class using method [addObserver]
  */
 object LocalDataBase : Observed {
 
+    /**
+     * Object that helps create database
+     */
     private var dbHelper: DataBaseOpenHelper? = null
+
+    /**
+     * Database that contain objects from [AlarmSignal] class
+     */
     private var sqLiteDatabase: SQLiteDatabase? = null
+
+    /**
+     * Database version
+     */
     private var dbVersion = 1
+
+    /**
+     * Array list of elements that need inform when DB has any changes
+     */
     private var observersArray: ArrayList<Observer>
 
+    /**
+     * Name of column that contains time when clock must start, must be in format HH:MM in 24-hours format
+     * For example 02:34,  15:05
+     */
     private val TIME_DB_FIELD =
         ClockApplication.applicationContext().getResources().getString(R.string.time_db_field)
 
+    /**
+     * Name of column that contains elements switch values, can be true or false
+     */
     private val SWITCH_DB_FIELD =
         ClockApplication.applicationContext().getResources().getString(R.string.switch_db_field)
 
+    /**
+     * Name of column that contains elements ID
+     */
     private val ID_DB_FIELD =
         ClockApplication.applicationContext().getResources().getString(R.string.id_db_field)
 
@@ -72,6 +99,7 @@ object LocalDataBase : Observed {
     fun deleteAlarm(id: Long) {
         Logger.log("Delete clock from database with id = $id")
         sqLiteDatabase!!.delete(DATA_BASE_NAME, "$ID_DB_FIELD = $id", null)
+        notifyObservers()
     }
 
     /**
@@ -109,7 +137,7 @@ object LocalDataBase : Observed {
         )
 
         Logger.log("Change alarm time in database for id = $id")
-
+        notifyObservers()
     }
 
     /**

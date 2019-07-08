@@ -1,6 +1,5 @@
 package com.example.clockkotlin.activities.changeClock
 
-import android.content.Context
 import android.os.Build
 import android.widget.TimePicker
 import com.example.clockkotlin.ClockApplication
@@ -45,6 +44,7 @@ class ChangeClockPresenter(private var mView: ChangeClockContract.View): ChangeC
             changeTime(oldTime, newTime, index)
         }
         mView.closeActivity()
+        mView.showToastMessage(ClockApplication.applicationContext().getString(R.string.clock_changed_successfully))
     }
 
     /**
@@ -81,7 +81,9 @@ class ChangeClockPresenter(private var mView: ChangeClockContract.View): ChangeC
     override fun deleteClockPositiveButtonClicked(id: Long, time: String) {
         deleteClockInDataBase(id)
         deleteAlarmManager(id, time)
-        mView.showToastMessage(ClockApplication.applicationContext().getString(R.string.delete_clock_successfully))
+        mView.showToastMessage(ClockApplication.applicationContext().getString(R.string.clock_deleted_successfully))
+        mView.closeActivity()
+
     }
 
     /**

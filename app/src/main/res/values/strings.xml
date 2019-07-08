@@ -13,5 +13,6 @@
     <string name="switch_db_field">enable</string>
     <string name="id_db_field">id</string>
     <string name="change_clock">Change clock</string>
-    <string name="delete_clock_successfully">Clock deleted</string>
+    <string name="clock_deleted_successfully">Clock deleted successfully</string>
+    <string name="clock_changed_successfully">Clock changed successfully</string>
 </resources>
